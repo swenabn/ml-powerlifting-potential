@@ -218,3 +218,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Data: never versioned (too large, downloaded from Kaggle)
+data/raw/*
+data/processed/*
+!data/**/.gitkeep
