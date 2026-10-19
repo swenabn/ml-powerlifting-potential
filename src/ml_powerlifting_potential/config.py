@@ -2,11 +2,9 @@
 
 from pathlib import Path
 
-# config.py lives in <root>/src/powerlifting_potential/, so the project root is 2 levels up
+# config.py lives in <root>/src/ml_powerlifting_potential/, so the project root is 2 levels up
 ROOT = Path(__file__).resolve().parents[2]
-RAW_CSV = (
-    ROOT / "data" / "raw" / "openpowerlifting.csv"
-)  # TODO: replace with the exact file name from step 1
+RAW_CSV = ROOT / "data" / "raw" / "openpowerlifting.csv"
 PROCESSED_CSV = ROOT / "data" / "processed" / "dataset.csv"
 
 SEED = 42

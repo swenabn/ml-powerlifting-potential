@@ -58,7 +58,8 @@ def prepare_dataset() -> tuple[pd.DataFrame, pd.DataFrame]:
 
     dataset = best[config.FEATURES + config.TARGETS].copy()
     dataset["Sex"] = (dataset["Sex"] == "M").astype(int)  # M -> 1, F -> 0
-    dataset["Tested"] = (dataset["Tested"] == "Yes").astype(int)  # Yes -> 1, empty -> 0
+    # Yes -> 1, empty -> 0 (an empty cell compares as NA, so fill it with False first)
+    dataset["Tested"] = (dataset["Tested"] == "Yes").fillna(False).astype(int)
     return dataset, funnel_df
 
 
