@@ -100,7 +100,8 @@ uv sync                                      # create the environment from uv.lo
 ├── reports/figures/          # figures exported by the notebooks
 ├── src/ml_powerlifting_potential/
 │   ├── config.py             # paths, thresholds, column names
-│   └── data.py               # loading, filtering, dataset preparation
+│   ├── data.py               # loading, filtering, dataset preparation
+│   └── models.py             # evaluation metric and model pipelines
 ├── pyproject.toml
 └── uv.lock
 ```
