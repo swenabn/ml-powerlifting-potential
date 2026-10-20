@@ -61,11 +61,20 @@ Test set, 45,525 lifters:
 
 ![Training time vs dataset size](reports/figures/training_time.png)
 
-**Example:** a 71 kg, 20-year-old man with a 110 kg bench press gets a predicted 167 kg squat and 200 kg deadlift. The 5,942 real lifters closest to that profile have medians of 167.5 kg and 200 kg.
+**Example:** a 71 kg, 20-year-old man with a 110 kg bench press gets a predicted 167 kg squat and 200 kg deadlift. The 5,942 real lifters closest to that profile have medians of 167.5 kg and 200 kg. For test lifters with a similar profile, the real value is within 27 kg (squat) and 32 kg (deadlift) of the prediction 8 times out of 10.
 
 ## Limitations
 
-- About 17 to 19 kg of average error remains: the model gives a realistic target, not a precise prediction.
+- About 17 to 19 kg of average error remains: the model gives a realistic target, not a precise prediction. The MAE is an average, not an interval; the empirical distribution of absolute errors on the test set (degree-2 polynomial) is:
+
+| Share of test lifters | Squat error below | Deadlift error below |
+|---|---|---|
+| 50 % | 13.7 kg | 14.9 kg |
+| 80 % | 27.2 kg | 29.6 kg |
+| 90 % | 36.5 kg | 39.2 kg |
+| 95 % | 45.6 kg | 48.6 kg |
+
+- The interval is the same for every lifter; a per-profile uncertainty would need another method (for example quantile regression).
 - It compares different people. It does not say that gaining bodyweight will increase a given lifter's squat.
 - The population is raw competitors from 2000 onwards; results do not transfer to equipped lifting or to non-competing gym-goers.
 - One train/test split: differences of a few tenths of a kilogram between models are not conclusive.
