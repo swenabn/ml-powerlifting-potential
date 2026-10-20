@@ -86,7 +86,11 @@ uv sync                                      # create the environment from uv.lo
    ```bash
    uv run python -m ml_powerlifting_potential.data   # writes data/processed/dataset.csv
    ```
-3. Run the notebooks with the project's environment as kernel: `notebooks/01_eda.ipynb` (exploration and filtering), then `notebooks/02_models.ipynb` (models, tuning, comparison).
+3. Run the tests:
+   ```bash
+   uv run pytest -q
+   ```
+4. Run the notebooks with the project's environment as kernel: `notebooks/01_eda.ipynb` (exploration and filtering), then `notebooks/02_models.ipynb` (models, tuning, comparison).
 
 ## Project structure
 
@@ -102,6 +106,7 @@ uv sync                                      # create the environment from uv.lo
 │   ├── config.py             # paths, thresholds, column names
 │   ├── data.py               # loading, filtering, dataset preparation
 │   └── models.py             # evaluation metric and model pipelines
+├── tests/                    # pytest tests on small hand-made tables
 ├── pyproject.toml
 └── uv.lock
 ```

@@ -1,2 +1,1 @@
-def main() -> None:
-    print("Hello from ml-powerlifting-potential!")
+"""Predict squat and deadlift potential from bench press and lifter profile."""
