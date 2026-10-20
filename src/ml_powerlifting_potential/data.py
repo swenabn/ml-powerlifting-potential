@@ -44,23 +44,31 @@ def apply_filters(
     return df[keep], pd.DataFrame(funnel, columns=["step", "rows_left"])
 
 
+def keep_best_per_lifter(df: pd.DataFrame) -> pd.DataFrame:
+    """Keep one row per lifter: the meet with their best total."""
+    best_idx = df.groupby("Name")["TotalKg"].idxmax()
+    return df.loc[best_idx]
+
+
+def encode_features(df: pd.DataFrame) -> pd.DataFrame:
+    """Keep the model columns and turn the text columns into numbers."""
+    dataset = df[config.FEATURES + config.TARGETS].copy()
+    dataset["Sex"] = (dataset["Sex"] == "M").astype(int)  # M -> 1, F -> 0
+    # Yes -> 1, empty -> 0 (an empty cell compares as NA, so fill it with False first)
+    dataset["Tested"] = (dataset["Tested"] == "Yes").fillna(False).astype(int)
+    return dataset
+
+
 def prepare_dataset() -> tuple[pd.DataFrame, pd.DataFrame]:
     """Full pipeline: raw CSV -> numeric modeling table (+ funnel table)."""
     raw = load_raw()
     filtered, funnel_df = apply_filters(raw, build_filters(raw))
 
-    best_idx = filtered.groupby("Name")[
-        "TotalKg"
-    ].idxmax()  # best total of each athlete
-    best = filtered.loc[best_idx]
+    best = keep_best_per_lifter(filtered)
     funnel_df.loc[len(funnel_df)] = ["One row per athlete", len(best)]
     funnel_df["rows_removed"] = -funnel_df["rows_left"].diff()
 
-    dataset = best[config.FEATURES + config.TARGETS].copy()
-    dataset["Sex"] = (dataset["Sex"] == "M").astype(int)  # M -> 1, F -> 0
-    # Yes -> 1, empty -> 0 (an empty cell compares as NA, so fill it with False first)
-    dataset["Tested"] = (dataset["Tested"] == "Yes").fillna(False).astype(int)
-    return dataset, funnel_df
+    return encode_features(best), funnel_df
 
 
 def load_dataset() -> pd.DataFrame:
